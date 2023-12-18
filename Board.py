@@ -49,7 +49,29 @@ class Board:
 
     
     def is_valid_direction(self, worker, direction):
-        pass
+        # direction = self.DIRECTIONS[direction]
+        # print("worker rn: ", worker)
+        worker_pos = self.worker_position(worker)
+        # print("worker rn: ", worker_pos)
+        work_x, work_y = worker_pos
+        # print (work_x, work_y)
+        print("direction rn? ", direction)
+        curr_x, curr_y = direction
+        # print("direction rn? ", direction)
+        if (0 > curr_x > 5 or 0 > curr_y > 5):
+            return False
+        elif self.cells[curr_x][curr_y]['worker'] is not None:
+            return False
+        elif self.cells[curr_x][curr_y]['height'] > self.cells[work_x][work_y]['height']:
+            return False
+        else:
+            return True
+    #  print("cur position: ", direction)
+    #  cur_pos = self.DIRECTIONS[direction]
+    #  print("direction valid?", cur_pos)  
+    #out of bounds and 
+    # if other worker is there
+    # get height of curr cell and also of future cell (cannot move to cell thats higher than u)
 
     def iliketomoveitmoveit(self):
         pass
