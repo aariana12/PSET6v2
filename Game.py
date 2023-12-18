@@ -30,14 +30,15 @@ class Santorini:
 
     def display_score(self):
         player = self.players[self.curr_player]
+        # score_str = ''
         if self.score:
             height = player.height_score()
             center = player.center_score()
             distance = player.distance_score()
-            score_str = f'{height}, {center}, {distance}'
+            score_str = f'({height}, {center}, {distance})'
             return score_str
         else:
-            pass
+            return ''
     
     def display_turn_str(self):
         player = self.players[self.curr_player].color
@@ -47,7 +48,7 @@ class Santorini:
         else:
             player_str = "blue (YZ)"
         score_str = self.display_score()
-        print(f"Turn: {self.turn_count}, {player_str} ({score_str})")
+        print(f"Turn: {self.turn_count}, {player_str} {score_str}")
 
     def undo_redo_command(self):
         if self.undo_redo:
@@ -58,7 +59,8 @@ class Santorini:
                 self.redo()
             elif command == "next":
                 pass
-
+            else:
+                print("Invalid action. Please enter undo, redo, or next.")
 
     def make_player(self, player_type, color, workers):
         if player_type == 'human':
@@ -78,10 +80,15 @@ class Santorini:
         # TODO check win, check if end
         curr_player = self.players[self.curr_player]
         selected_worker = curr_player.get_worker()
-        print(selected_worker)
         selected_direction = curr_player.get_move_direction(selected_worker)
         selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
 
+        self.board.iliketomoveitmoveit(selected_worker, selected_direction)
+        self.board.bobthebuilder(select_worker, selected_build)
+        self.switch_players()
+
+    def switch_players(self):
+        self.curr_player =  1 - self.curr_player
 
     def undo(self):
         if self.history_index > 0:
