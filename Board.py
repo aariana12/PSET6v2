@@ -62,7 +62,7 @@ class Board:
         else:
             return False
 
-     def is_valid_build(self, worker, move_direction, direction):
+    def is_valid_build(self, worker, move_direction, direction):
         curr_x, curr_y = self.worker_position(worker)
         build_x, build_y = self.DIRECTIONS[move_direction]
         print("curr xy", curr_x, curr_y)

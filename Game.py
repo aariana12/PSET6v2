@@ -24,7 +24,7 @@ class Santorini:
         self.turn_count = 1
         self.curr_player = 0 # start with white
         self.move_history = [] # save ALL MOVES
-        self.history_index = 0 # TODO weird behavior - better when -1
+        self.history_index = -1 # TODO weird behavior - better when -1
         # when 0, undo weird 
        
 
@@ -71,6 +71,7 @@ class Santorini:
     def initialize_board(self):
         for player in self.players:
                 player.workers = self.board.make_board(player.color)
+        self.save_memento()
 
     def make_player(self, player_type, color, workers):
         if player_type == 'human':
@@ -80,6 +81,44 @@ class Santorini:
         elif player_type == 'random':
             return RandomPlayer(player_type, workers, color, self.board)
 
+    # def make_moves(self):
+    #     while True:
+    #         self.board.display()
+    #         self.display_turn_str()
+    #         if not self.undo_redo_command():
+    #             curr_player = self.players[self.curr_player]
+    #             selected_worker = curr_player.get_worker()
+    #             selected_direction = curr_player.get_move_direction(selected_worker)
+    #             selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
+
+    #             self.board.iliketomoveitmoveit(selected_worker, selected_direction)
+    #             self.board.bobthebuilder(selected_worker, selected_build)
+    #             actual_score = self.display_score(curr_player)
+    #             print(f'{selected_worker, selected_direction, selected_build} {actual_score}')
+                
+    #             # Save memento after the player has completed their turn
+    #             self.save_memento()
+
+    #             # Increment turn count after the player has completed their turn
+    #             self.turn_count += 1
+    #             self.switch_players()
+    #         curr_player = self.players[self.curr_player]
+    #         selected_worker = curr_player.get_worker()
+    #         selected_direction = curr_player.get_move_direction(selected_worker)
+    #         selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
+            
+    #         self.board.iliketomoveitmoveit(selected_worker, selected_direction)
+    #         self.board.bobthebuilder(selected_worker, selected_build)
+    #         actual_score = self.display_score(curr_player)
+    #         formatted_move = ','.join([selected_worker, selected_direction, selected_build])
+
+    #         print(f"{formatted_move} {actual_score}")
+
+    
+            
+            
+    #         # print (f'{selected_worker, selected_direction,selected_build} {actual_score}')
+    #         self.switch_players()
     def make_moves(self):
         while True:
             self.board.display()
@@ -102,23 +141,7 @@ class Santorini:
                 # Increment turn count after the player has completed their turn
                 self.turn_count += 1
                 self.switch_players()
-            curr_player = self.players[self.curr_player]
-            selected_worker = curr_player.get_worker()
-            selected_direction = curr_player.get_move_direction(selected_worker)
-            selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
-            
-            self.board.iliketomoveitmoveit(selected_worker, selected_direction)
-            self.board.bobthebuilder(selected_worker, selected_build)
-            actual_score = self.display_score(curr_player)
-            formatted_move = ','.join([selected_worker, selected_direction, selected_build])
 
-            print(f"{formatted_move} {actual_score}")
-
-    
-            
-            
-            # print (f'{selected_worker, selected_direction,selected_build} {actual_score}')
-            self.switch_players()
 
 
     def switch_players(self):
@@ -159,7 +182,6 @@ class Santorini:
             self.history_index -= 1
             self.turn_count -= 1
             self.memento(self.move_history[self.history_index])
-            self.switch_players()
             # TODO - can't go all the way back to og position
 
     def redo(self):
@@ -167,7 +189,6 @@ class Santorini:
             self.history_index += 1
             self.turn_count += 1
             self.memento(self.move_history[self.history_index])
-            self.switch_players()
 
     def save_memento(self):
         self.move_history = self.move_history[:self.history_index + 1]
