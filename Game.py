@@ -82,9 +82,9 @@ class Santorini:
         selected_worker = curr_player.get_worker()
         selected_direction = curr_player.get_move_direction(selected_worker)
         selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
-
+        
         self.board.iliketomoveitmoveit(selected_worker, selected_direction)
-        self.board.bobthebuilder(select_worker, selected_build)
+        self.board.bobthebuilder(selected_worker, selected_build)
         self.switch_players()
 
     def switch_players(self):

@@ -49,23 +49,20 @@ class Board:
 
     
     def is_valid_direction(self, worker, direction):
-        # direction = self.DIRECTIONS[direction]
-        # print("worker rn: ", worker)
-        worker_pos = self.worker_position(worker)
-        # print("worker rn: ", worker_pos)
-        work_x, work_y = worker_pos
-        # print (work_x, work_y)
-        print("direction rn? ", direction)
         curr_x, curr_y = direction
-        # print("direction rn? ", direction)
+        worker_pos = self.worker_position(worker)
+        work_x, work_y = worker_pos
         if (0 > curr_x > 5 or 0 > curr_y > 5):
+            print("1")
             return False
         elif self.cells[curr_x][curr_y]['worker'] is not None:
+            print("2")
             return False
         elif self.cells[curr_x][curr_y]['height'] > self.cells[work_x][work_y]['height']:
+            print("3")
+            
             return False
-        else:
-            return True
+        return True
     #  print("cur position: ", direction)
     #  cur_pos = self.DIRECTIONS[direction]
     #  print("direction valid?", cur_pos)  
