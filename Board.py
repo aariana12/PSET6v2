@@ -37,6 +37,16 @@ class Board:
             self.cells[1][1]['worker'] = ('Y', 1, 1)
             self.cells[3][3]['worker'] = ('Z', 3, 3)
             return [('Y', 1, 1), ('Z', 3, 3)]  
+
+    def worker_position(self, worker_id):
+        for i in range(5):
+            for j in range(5):
+                cell = self.cells[i][j]
+                if cell['worker'] is not None and cell['worker'][0] == worker_id:
+                    # Return the position as (row, column)
+                    return (i, j)
+        return None 
+
     
     def is_valid_direction(self, worker, direction):
         pass

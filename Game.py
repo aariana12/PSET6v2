@@ -80,9 +80,7 @@ class Santorini:
         selected_worker = curr_player.get_worker()
         print(selected_worker)
         selected_direction = curr_player.get_move_direction(selected_worker)
-        selected_build = curr_player.get_build_direction(selected_direction)
-        curr_worker_pos = self.board.get_worker_position(selected_worker)
-        print("directionsss: ", curr_worker_pos)
+        selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
 
 
     def undo(self):
