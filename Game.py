@@ -87,6 +87,8 @@ class Santorini:
         self.board.bobthebuilder(selected_worker, selected_build)
         self.switch_players()
 
+        self.board.display()
+
     def switch_players(self):
         self.curr_player =  1 - self.curr_player
 

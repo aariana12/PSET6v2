@@ -39,6 +39,7 @@ class Board:
             return [('Y', 1, 1), ('Z', 3, 3)]  
 
     def worker_position(self, worker_id):
+        """finds the cur worker position"""
         for i in range(5):
             for j in range(5):
                 cell = self.cells[i][j]
@@ -70,11 +71,30 @@ class Board:
     # if other worker is there
     # get height of curr cell and also of future cell (cannot move to cell thats higher than u)
 
-    def iliketomoveitmoveit(self):
-        pass
+    def iliketomoveitmoveit(self, worker, to_direction):
+        curr_x, curr_y = self.worker_position(worker)
+        self.cells[curr_x][curr_y]['worker'] = None
+        # print("cur position before move: ", curr_x, curr_y)
+        new_dir = self.DIRECTIONS[to_direction]
+        new_x, new_y = new_dir
+        curr_x = curr_x + new_x
+        curr_y = curr_y + new_y
+        # print("new pos after move: ", new_x, new_y)
+        # self.cells[curr_x][curr_y]['worker'] = None
+        self.cells[curr_x][curr_y]['worker'] = worker 
 
-    def bobthebuilder(self):
-        pass
+        
+
+    def bobthebuilder(self, worker, to_build):
+        curr_x, curr_y = self.worker_position(worker)
+        print("curr pos after move: ", curr_x, curr_y)
+        build_x, build_y = self.DIRECTIONS[to_build]
+        build_n = curr_x + build_x
+        build_m = curr_y + build_y
+        #TODO should not be able to build where there is a worker 
+
+            
+        self.cells[build_n][build_m]['height'] += 1
         
     
     # def get_worker_position(self, worker_id):
