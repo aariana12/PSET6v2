@@ -1,3 +1,5 @@
+# from players.HeuristicPlayer import HeuristicPlayer
+
 class Board:
     DIRECTIONS = {
         'n': (-1, 0),
@@ -86,12 +88,10 @@ class Board:
         curr_x, curr_y = self.worker_position(worker)
         self.cells[curr_x][curr_y]['worker'] = None
         new_dir = self.DIRECTIONS[to_direction]
-        print("new dir", new_dir)
         new_x, new_y = new_dir
         again_x = curr_x + new_x
         again_y = curr_y + new_y
         # print("new pos after move: ", new_x, new_y)
-        # self.cells[curr_x][curr_y]['worker'] = None
         self.cells[again_x][again_y]['worker'] = worker
 
         return (worker[0], again_x, again_y) 
@@ -101,11 +101,29 @@ class Board:
         build_x, build_y = self.DIRECTIONS[to_build]
         build_n = curr_x + build_x
         build_m = curr_y + build_y
-        print(build_n, build_m)
         #TODO should not be able to build where there is a worker 
         self.cells[build_n][build_m]['height'] += 1
         curr_pos_b = self.worker_position(worker)
-        print("worker in bob? ", curr_pos_b)
+    
+    # def weliveinsimulation(self, worker, to_direction, all_workers):
+    #     # print("worker in simulation: ", worker[0])
+    #     curr_x, curr_y = self.worker_position(worker[0])
+    #     self.cells[curr_x][curr_y]['worker'] = None
+    #     new_dir = self.DIRECTIONS[to_direction]
+    #     new_x, new_y = new_dir
+    #     again_x = curr_x + new_x
+    #     again_y = curr_y + new_y
+    #     self.cells[again_x][again_y]['worker'] = worker
+    #     height_score = self.player.height_score(all_workers)
+    #     center_score = self.player.center_score(all_workers)
+    #     distance_score = self.player.distance_score(all_workers)
+
+    #     #undoes the simulated move
+    #     self.cells[again_x][again_y]['worker'] = None
+    #     self.cells[curr_x][curr_y]['worker'] = worker
+    #     return height_score, center_score, distance_score
+        
+        
     
    
 
@@ -122,3 +140,14 @@ class Board:
                 # return False
                 #empty cell
         return occupied
+
+    # def get_valid_move_directions(self, row, col):
+    #         valid_directions = []
+    #         for direction, (dx, dy) in self.DIRECTIONS.items():
+    #             new_row, new_col = row + dx, col + dy
+    #             if 0 <= new_row < 5 and 0 <= new_col < 5:  # Check within board boundaries
+    #                 target_cell = self.cells[new_row][new_col]
+    #                 if target_cell['worker'] is None:  # Check if cell is not occupied by another worker
+    #                     # Additional rules can be added here (e.g., height difference constraints)
+    #                     valid_directions.append(direction)
+    #         return valid_directions
