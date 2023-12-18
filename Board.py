@@ -26,3 +26,13 @@ class Board:
                     print(f"|{height} ", end="")
             print("|")
             print("+--+--+--+--+--+")
+
+    def setup_workers(self, workers):
+        if workers == "['A', 'B']":
+            self.cells[3][1]['worker'] = ('A', 3, 1)
+            self.cells[1][3]['worker'] = ('B', 1, 3)
+            return [('A', 3, 1), ('B', 1, 3)]
+        else:
+            self.cells[1][1]['worker'] = ('Y', 1, 1)
+            self.cells[3][3]['worker'] = ('Z', 3, 3)
+            return [('Y', 1, 1), ('Z', 3, 3)]  
