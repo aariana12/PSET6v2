@@ -21,7 +21,7 @@ class HumanPlayer(Player):
             if selected_direction not in self.board.DIRECTIONS.keys():
                 print("Not a valid direction.")
             elif self.board.is_valid_direction(worker, selected_direction):
-                print(f"This worker is unable to move to {select_direction}")
+                print(f"This worker is unable to move to {selected_direction}")
             return selected_direction
 
     def get_build_direction(self, worker, move_direction):

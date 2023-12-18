@@ -41,6 +41,7 @@ class Santorini:
         for player in self.players:
             player.workers = self.board.setup_workers(player.color)
         self.board.display()
+       
 
     def undo(self):
         if self.history_index > 0:
