@@ -1,7 +1,8 @@
 from Board import Board
 from copy import deepcopy
 from players.HumanPlayer import HumanPlayer
-import copy
+# from players.HeuristicPlayer import HeuristicPlayer
+# from players.RandomPlayer import RandomPlayer
 
 class Santorini:
     """
@@ -12,12 +13,12 @@ class Santorini:
     def __init__(self, white_type, blue_type, undo_redo=False, score=False):
         self.board = Board()
         # pass in the type of player (human, heursitics, random)
-        self.white_type = white_type 
-        self.blue_type = blue_type
-        self.undo_redo = undo_redo
-        self.score = score
-        self.players = [[self.make_player(white_type, "white", ['A', 'B']), 
-                        self.make_player(blue_type, "blue", ['Y', 'Z'])]] # an array of type Player
+        # self.white_type = white_type
+        # self.blue_type = blue_type
+        self.undo_redo_setting = undo_redo
+        self.score_setting = score
+        self.players = [self.make_player(white_type, ['A', 'B'], "white"), 
+                        self.make_player(blue_type, ['Y', 'Z'], "blue")] # an array of type Player
         self.turn_count = 1
         self.curr_player = 0 # start with white
         self.move_history = [] # save ALL MOVES
@@ -50,15 +51,17 @@ class Santorini:
         print(f"Turn: {self.turn_count}, {player_str} ({score_str})")
 
 
-    def make_player(self, player_type, name, workers):
+    def make_player(self, player_type, color, workers):
         if player_type == 'human':
-            return HumanPlayer(name, workers, self.board)
-        # elif player_type == 'heuristic':
-        #     return Heuristic(name, workers, self.board)
-        # else:  # player_type == 'random'
-        #     return Random(name, workers, self.board)
+            return HumanPlayer(player_type, workers, color, self.board)
+        elif player_type == 'heuristic':
+            return HeuristicPlayer(player_type, workers, color, self.board)
+        else:  # player_type == 'random'
+            return RandomPlayer(player_type, workers, color, self.board)
 
     def make_moves(self):
+        for player in self.players:
+            player.workers = self.board.setup_workers(player.color)
         self.board.display()
         self.display_turn_str()
 
