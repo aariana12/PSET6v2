@@ -28,13 +28,14 @@ class Santorini:
         # self._history_index = 0 # start at turn one, used to move thru the history array
         # redo --> moves index back 1 to get the previous history item, returns that item 
 
-    def display_score(self):
-        player = self.players[self.curr_player]
+    def display_score(self, player):
+        # player = self.players[self.curr_player]
+        opp_player = self.players[1 - self.curr_player]
         # score_str = ''
         if self.score:
-            height = player.height_score()
-            center = player.center_score()
-            distance = player.distance_score()
+            height = player.height_score(player)
+            center = player.center_score(player)
+            distance = player.distance_score(opp_player, player)
             score_str = f'({height}, {center}, {distance})'
             return score_str
         else:
@@ -47,7 +48,7 @@ class Santorini:
             player_str = "white (AB)"
         else:
             player_str = "blue (YZ)"
-        score_str = self.display_score()
+        score_str = self.display_score(self.players[self.curr_player])
         print(f"Turn: {self.turn_count}, {player_str} {score_str}")
 
     def undo_redo_command(self):
@@ -62,6 +63,10 @@ class Santorini:
             else:
                 print("Invalid action. Please enter undo, redo, or next.")
 
+    def initialize_board(self):
+        for player in self.players:
+                player.workers = self.board.make_board(player.color)
+
     def make_player(self, player_type, color, workers):
         if player_type == 'human':
             return HumanPlayer(player_type, workers, color, self.board)
@@ -71,25 +76,23 @@ class Santorini:
             return RandomPlayer(player_type, workers, color, self.board)
 
     def make_moves(self):
-        for player in self.players:
-            player.workers = self.board.setup_workers(player.color)
-        self.board.display()
-        self.display_turn_str()
-        self.undo_redo_command()
-        self.turn_count += 1
+        while True:
+            self.board.display()
+            self.display_turn_str()
+            self.undo_redo_command()
+            self.turn_count += 1
 
+            curr_player = self.players[self.curr_player]
+            selected_worker = curr_player.get_worker()
+            selected_direction = curr_player.get_move_direction(selected_worker)
+            selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
+            
+            self.board.iliketomoveitmoveit(selected_worker, selected_direction)
+            self.board.bobthebuilder(selected_worker, selected_build)
+            actual_score = self.display_score(curr_player)
+            print (f'{selected_worker, selected_direction,selected_build} {actual_score}')
+            self.switch_players()
 
-
-        curr_player = self.players[self.curr_player]
-        selected_worker = curr_player.get_worker()
-        selected_direction = curr_player.get_move_direction(selected_worker)
-        selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
-        
-        self.board.iliketomoveitmoveit(selected_worker, selected_direction)
-        self.board.bobthebuilder(selected_worker, selected_build)
-        self.switch_players()
-
-        self.board.display()
 
     def switch_players(self):
         self.curr_player =  1 - self.curr_player
@@ -105,25 +108,25 @@ class Santorini:
                 else:
                     return False
 
-    def check_game_state(self):
-        if self.turn_count > 1:
-            winner = self.has_won()
-            if winner:
-                print(winner)
-                play = input("Play again?\n")
-                if play.lower() == "yes":
+    # def check_game_state(self):
+    #     if self.turn_count > 1:
+    #         winner = self.has_won()
+    #         if winner:
+    #             print(winner)
+    #             play = input("Play again?\n")
+    #             if play.lower() == "yes":
 
 
-    def play_again(self):
-        """
-        re-initialize everything back to what it was originally
-        """
-        self.board = Board
-        self.turn_count = 1
-        self.move_history = []
-        self.history_index = -1
+    # def play_again(self):
+    #     """
+    #     re-initialize everything back to what it was originally
+    #     """
+    #     self.board = Board
+    #     self.turn_count = 1
+    #     self.move_history = []
+    #     self.history_index = -1
 
-        # TODO 
+    #     # TODO 
 
         
 

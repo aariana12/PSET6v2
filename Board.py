@@ -27,8 +27,7 @@ class Board:
             print("|")
             print("+--+--+--+--+--+")
 
-    def setup_workers(self, color):
-        print("we made it!", color)
+    def make_board(self, color):
         if color == "white":
             self.cells[3][1]['worker'] = ('A', 3, 1)
             self.cells[1][3]['worker'] = ('B', 1, 3)
@@ -54,13 +53,13 @@ class Board:
         worker_pos = self.worker_position(worker)
         work_x, work_y = worker_pos
         if (0 > curr_x > 5 or 0 > curr_y > 5):
-            print("1")
+            # print("1")
             return False
         elif self.cells[curr_x][curr_y]['worker'] is not None:
-            print("2")
+            # print("2")
             return False
         elif self.cells[curr_x][curr_y]['height'] > self.cells[work_x][work_y]['height']:
-            print("3")
+            # print("3")
             
             return False
         return True
@@ -77,24 +76,31 @@ class Board:
         # print("cur position before move: ", curr_x, curr_y)
         new_dir = self.DIRECTIONS[to_direction]
         new_x, new_y = new_dir
-        curr_x = curr_x + new_x
-        curr_y = curr_y + new_y
+        again_x = curr_x + new_x
+        again_y = curr_y + new_y
         # print("new pos after move: ", new_x, new_y)
         # self.cells[curr_x][curr_y]['worker'] = None
-        self.cells[curr_x][curr_y]['worker'] = worker 
+        print("Ilike move it:", worker[0])
+        self.cells[again_x][again_y]['worker'] = worker
+        
+        return (worker[0], again_x, again_y) 
 
         
 
     def bobthebuilder(self, worker, to_build):
         curr_x, curr_y = self.worker_position(worker)
-        print("curr pos after move: ", curr_x, curr_y)
+        # print("curr pos after move: ", curr_x, curr_y)
         build_x, build_y = self.DIRECTIONS[to_build]
         build_n = curr_x + build_x
         build_m = curr_y + build_y
-        #TODO should not be able to build where there is a worker 
 
-            
+        #TODO should not be able to build where there is a worker 
         self.cells[build_n][build_m]['height'] += 1
+        curr_pos_b = self.worker_position(worker)
+        print("worker in bob? ", curr_pos_b)
+        # print("worker in bobthebuilder: ", self.cells[build_n][build_m]['worker'])
+    
+    # def is_valid_build
         
     
     # def get_worker_position(self, worker_id):
