@@ -36,3 +36,5 @@ class Board:
             self.cells[1][1]['worker'] = ('Y', 1, 1)
             self.cells[3][3]['worker'] = ('Z', 3, 3)
             return [('Y', 1, 1), ('Z', 3, 3)]  
+    def is_valid_direction(self, worker, direction):
+        

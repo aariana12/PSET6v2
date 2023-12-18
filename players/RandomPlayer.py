@@ -3,7 +3,7 @@ import random
 
 class RandomPlayer(player):
     def __init__(self):
-        super().__init__(self.player_type, self.workers, self.board,)
+        super().__init__(player_type, workers, color, board)
         self.player_type = "random"
 
         def get_worker(self):
@@ -12,5 +12,5 @@ class RandomPlayer(player):
         def get_move_direction(self, worker):
             return random.choice(self.valid_directions(worker))
 
-        def get_build_direction(self, move_direction):
+        def get_build_direction(self, move_direction): # worker replaced by move_direction
             return random.choice(self.valid_directions(move_direction))

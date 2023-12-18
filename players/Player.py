@@ -1,10 +1,11 @@
 from Board import Board
 
 class Player:
-    def __init__(self, player_type, workers, board):
-        self.player_type = player_type
-        self.workers = workers # my workers
-        self.board = board
+    def __init__(self, player_type, color, workers, board):
+        self.player_type = player_type # ex: human
+        self.workers = workers # ex: [A,B]
+        self.color = color # ex: white
+        self.board = board 
         # self.valid_directions = {'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'}
 
     
