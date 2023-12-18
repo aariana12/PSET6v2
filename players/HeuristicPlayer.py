@@ -2,7 +2,7 @@ from Player import Player
 
 class RandomPlayer(player):
     def __init__(self):
-        super().__init__(player_type, workers, board,)
+        super().__init__(player_type, workers, color, board)
         self.player_type = "heuristic"
 
     def get_worker(self):

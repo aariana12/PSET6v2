@@ -2,7 +2,7 @@ from players.Player import Player
 
 class HumanPlayer(Player):
 
-    def __init__(self, player_type, workers, board):
+    def __init__(self, player_type, workers, color, board):
         super().__init__(player_type, workers, board)
         self.player_type = "human"
 

@@ -3,7 +3,7 @@ import random
 
 class RandomPlayer(player):
     def __init__(self):
-        super().__init__(player_type, workers, board,)
+        super().__init__(player_type, workers, color, board)
         self.player_type = "random"
 
         def get_worker(self):
