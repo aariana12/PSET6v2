@@ -53,7 +53,8 @@ class Board:
         worker_pos = self.worker_position(worker)
         work_x, work_y = worker_pos
         new_x, new_y = curr_x + work_x, curr_y + work_y
-        if (0 < new_x < 5 and 0 < new_y < 5):
+        print("new xy:", new_x, new_y)
+        if (0 <= new_x < 5 and 0 <= new_y < 5):
             if not self.check_occupied_worker((new_x, new_y)):
                 # return True
                 height_diff = self.cells[new_x][new_y]['height'] - self.cells[curr_x][curr_y]['height']
@@ -63,18 +64,20 @@ class Board:
             return False
 
     def is_valid_build(self, worker, move_direction, direction):
-        curr_x, curr_y = self.worker_position(worker)
-        build_x, build_y = self.DIRECTIONS[move_direction]
-        print("curr xy", curr_x, curr_y)
-        work_x, work_y = direction
-        print("work xy", work_x, work_y)
+        work_x, work_y = self.worker_position(worker)  # worker pos
+        curr_x, curr_y = self.DIRECTIONS[move_direction] # current move
+        build_x, build_y = direction # build dir
         new_x, new_y  = curr_x + work_x + build_x, curr_y + work_y + build_y
-        print("NEWWW COORDS: ", new_x, new_y)
         if (0 < new_x < 5 and 0 < new_y < 5):
+            # temporarily move it 
+            self.cells[work_x + curr_x][work_y + curr_y]['worker'] = worker
+            self.cells[work_x][work_y]['worker'] = None
             if not self.check_occupied_worker((new_x, new_y)):
-                # return True
                 height_diff = self.cells[new_x][new_y]['height'] - self.cells[curr_x][curr_y]['height']
                 if height_diff <=1:
+                    # move it back
+                    self.cells[work_x][work_y]['worker'] = worker
+                    self.cells[work_x + curr_x][work_y + curr_y]['worker'] = None
                     return True
         else:
             return False
