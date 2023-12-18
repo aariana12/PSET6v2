@@ -1,4 +1,5 @@
 from Board import Board
+from abc import ABC, abstractmethod
 
 class Player:
     def __init__(self, player_type, color, workers, board):
@@ -8,21 +9,24 @@ class Player:
         self.board = board
         # self.valid_directions = {'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'}
 
-    
+    @abstractmethod
     def get_worker(self):
         raise NotImplementedError()
     
+    @abstractmethod
     def get_move_direction(self, worker):
         raise NotImplementedError()
 
-    def get_build_direction(self, worker):
+    @abstractmethod
+    def get_build_direction(self, worker, move_direction):
         raise NotImplementedError()
 
     def has_moves(self, worker):
         # TODO get position of a worker 
         for direction in self.board.DIRECTIONS.values():
             position = self.board.worker_position(worker)
-            selected_dir = (position[0] + direction[0], position[1] + direction[1])
+            # selected_dir = (position[0] + direction[0], position[1] + direction[1])
+            selected_dir =(direction[0], direction[1])
             if self.board.is_valid_direction(worker, selected_dir):
                 return True
         return False
@@ -33,18 +37,27 @@ class Player:
         """
         valid_directions = []
         for direction in self.board.DIRECTIONS.keys():
-            row, column = self.board.DIRECTION[direction]
-            selected_dir = (worker[1] + row, worker[2] + column)
-            if self.board.is_valid_direction(worker, selected_dir):
-                valid_directions.append(selected_dir)
+            selected_dir = self.board.DIRECTIONS[direction]
+            worker_pos = self.board.worker_position(worker[0])
+            if self.board.is_valid_direction(worker[0], selected_dir):
+                valid_directions.append(direction)
+        print("valid direction array", valid_directions)
         return valid_directions
 
-
-    def valid_builds(self, worker):
+    def valid_builds(self, worker, build_direction):
         """
         returns an array of valid builds for that worker
         """
-        pass
+        print("instead valid builds")
+        valid_builds = []
+        for direction in self.board.DIRECTIONS.keys():
+            
+            selected_dir = self.board.DIRECTIONS[direction]
+            
+            # print("valid buids selected dir", selected_dir)
+            if self.board.is_valid_direction(worker[0], selected_dir):
+                valid_builds.append(direction)
+        return valid_builds
 
     def height_score(self, player):
         height = 0

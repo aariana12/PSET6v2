@@ -47,34 +47,43 @@ class Board:
                     return (i, j)
         return None 
 
-    
+    # DIRECTION - n,w,s, coords 
     def is_valid_direction(self, worker, direction):
         curr_x, curr_y = direction
         worker_pos = self.worker_position(worker)
         work_x, work_y = worker_pos
-        if (0 > curr_x > 5 or 0 > curr_y > 5):
-            # print("1")
+        new_x, new_y = curr_x + work_x, curr_y + work_y
+        if (0 < new_x < 5 and 0 < new_y < 5):
+            if not self.check_occupied_worker((new_x, new_y)):
+                # return True
+                height_diff = self.cells[new_x][new_y]['height'] - self.cells[curr_x][curr_y]['height']
+                if height_diff <=1:
+                    return True
+        else:
             return False
-        elif self.cells[curr_x][curr_y]['worker'] is not None:
-            # print("2")
+
+    def is_valid_build(self, worker, move_direction, direction):
+        curr_x, curr_y = self.worker_position(worker)
+        build_x, build_y = self.DIRECTIONS[move_direction]
+        print("curr xy", curr_x, curr_y)
+        work_x, work_y = direction
+        print("work xy", work_x, work_y)
+        new_x, new_y  = curr_x + work_x + build_x, curr_y + work_y + build_y
+        print("NEWWW COORDS: ", new_x, new_y)
+        if (0 < new_x < 5 and 0 < new_y < 5):
+            if not self.check_occupied_worker((new_x, new_y)):
+                # return True
+                height_diff = self.cells[new_x][new_y]['height'] - self.cells[curr_x][curr_y]['height']
+                if height_diff <=1:
+                    return True
+        else:
             return False
-        elif self.cells[curr_x][curr_y]['height'] > self.cells[work_x][work_y]['height']:
-            # print("3")
-            
-            return False
-        return True
-    #  print("cur position: ", direction)
-    #  cur_pos = self.DIRECTIONS[direction]
-    #  print("direction valid?", cur_pos)  
-    #out of bounds and 
-    # if other worker is there
-    # get height of curr cell and also of future cell (cannot move to cell thats higher than u)
 
     def iliketomoveitmoveit(self, worker, to_direction):
         curr_x, curr_y = self.worker_position(worker)
         self.cells[curr_x][curr_y]['worker'] = None
-        # print("cur position before move: ", curr_x, curr_y)
         new_dir = self.DIRECTIONS[to_direction]
+        print("new dir", new_dir)
         new_x, new_y = new_dir
         again_x = curr_x + new_x
         again_y = curr_y + new_y
@@ -84,18 +93,29 @@ class Board:
 
         return (worker[0], again_x, again_y) 
 
-        
-
     def bobthebuilder(self, worker, to_build):
         curr_x, curr_y = self.worker_position(worker)
-        # print("curr pos after move: ", curr_x, curr_y)
         build_x, build_y = self.DIRECTIONS[to_build]
         build_n = curr_x + build_x
         build_m = curr_y + build_y
-
+        print(build_n, build_m)
         #TODO should not be able to build where there is a worker 
         self.cells[build_n][build_m]['height'] += 1
         curr_pos_b = self.worker_position(worker)
-      
-        # print("worker in bobthebuilder: ", self.cells[build_n][build_m]['worker'])
+        print("worker in bob? ", curr_pos_b)
     
+   
+
+    def check_occupied_worker(self, coordinate):
+        occupied = False
+        for worker in ['A', 'B', 'Y', 'Z']:
+            if self.worker_position(worker) == coordinate:
+                #yes, cell is occupied
+                occupied = True
+                print("in check: ", self.worker_position(worker), coordinate)
+                # return False 
+            elif self.worker_position(worker) == None:
+                occupied = False
+                # return False
+                #empty cell
+        return occupied

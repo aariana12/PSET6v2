@@ -1,4 +1,4 @@
-from Player import Player
+from players.Player import Player
 
 class HeuristicPlayer(player):
     def __init__(self, player_type, workers, color, board):
