@@ -29,7 +29,7 @@ class Santorini:
         # redo --> moves index back 1 to get the previous history item, returns that item 
 
     def display_score(self):
-        player = self.curr_player
+        player = self.players[self.curr_player]
         if self.score:
             height = player.height_score()
             center = player.center_score()
@@ -64,6 +64,7 @@ class Santorini:
             player.workers = self.board.setup_workers(player.color)
         self.board.display()
         self.display_turn_str()
+        
 
     def undo(self):
         if self.history_index > 0:
