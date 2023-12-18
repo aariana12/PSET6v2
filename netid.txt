@@ -1,0 +1,6 @@
+Jessica Le: jsl87
+
+For this partner programming project, I was challenged to be extremely organized and plan out the structuring of our code before starting. We initially tried an approach that had many classes and abstractions, but it quickly became unmanageable, as functions were overriding eachtoher. I learned the importance and value of concise code, as well as implementing abstraction where possible. This project greatly improved my ability to think more wholistically about the mamy moving parts of the code to optimize efficiency and find shortcuts to writing less unnecessary and redundant code. 
+
+
+Ariana Delgado: 
