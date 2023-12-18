@@ -20,7 +20,8 @@ class Player:
 
     def has_moves(self, worker):
         for direction in self.board.DIRECTIONS.values():
-            selected_dir = (worker[1] + direction[0], worker[2] + direction[1])
+            print(worker[0],direction[0])
+            selected_dir = (worker[1] + direction[0], worker[0] + direction[1])
             if self.board.is_valid_direction(worker, selected_dir):
                 return True
         return False

@@ -6,10 +6,12 @@ class HumanPlayer(Player):
         super().__init__(player_type, workers, color, board)
         self.player_type = "human"
 
+
     def get_worker(self):
         while True:
             selected_worker = input("Select a worker to move\n")
-            if selected_worker not in self.workers:
+            worker_names = [worker[0] for worker in self.workers]
+            if selected_worker not in worker_names:
                 print("Not a valid worker")
             elif not self.has_moves(selected_worker):
                 print("That worker cannot move")
