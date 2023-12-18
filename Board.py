@@ -1,3 +1,5 @@
+# from players.HeuristicPlayer import HeuristicPlayer
+
 class Board:
     """
     class that sets up the board positions and has the lowest level functions that move and manage workers on the board
@@ -103,7 +105,6 @@ class Board:
         curr_x, curr_y = self.worker_position(worker)
         self.cells[curr_x][curr_y]['worker'] = None
         new_dir = self.DIRECTIONS[to_direction]
-        print("new dir", new_dir)
         new_x, new_y = new_dir
         again_x = curr_x + new_x
         again_y = curr_y + new_y
@@ -135,3 +136,14 @@ class Board:
             elif self.worker_position(worker) == None:
                 occupied = False
         return occupied
+
+    # def get_valid_move_directions(self, row, col):
+    #         valid_directions = []
+    #         for direction, (dx, dy) in self.DIRECTIONS.items():
+    #             new_row, new_col = row + dx, col + dy
+    #             if 0 <= new_row < 5 and 0 <= new_col < 5:  # Check within board boundaries
+    #                 target_cell = self.cells[new_row][new_col]
+    #                 if target_cell['worker'] is None:  # Check if cell is not occupied by another worker
+    #                     # Additional rules can be added here (e.g., height difference constraints)
+    #                     valid_directions.append(direction)
+    #         return valid_directions
