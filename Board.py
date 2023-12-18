@@ -26,3 +26,6 @@ class Board:
                     print(f"|{height} ", end="")
             print("|")
             print("+--+--+--+--+--+")
+
+    def is_valid_direction(self, worker, direction):
+        

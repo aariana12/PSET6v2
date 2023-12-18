@@ -8,7 +8,7 @@ class Santorini:
     Singleton design pattern since we are creating one instance of the game that isopen
     to reference
     """
-    def __init__(self, white_type, blue_type, undo_redo, score):
+    def __init__(self, white_type, blue_type, undo_redo=False, score=False):
         self.board = Board()
         # pass in the type of player (human, heursitics, random)
         self.white_type = white_type
@@ -20,7 +20,8 @@ class Santorini:
         self.turn_count = 1
         self.curr_player = 0 # start with white
         self.move_history = [] # save ALL MOVES
-        self.undo_history_index = -1
+        self.history_index = -1 
+        # self.undo_history_index = -1
         # self._undo_history = [] # save all UNDOS
         # self._history_index = 0 # start at turn one, used to move thru the history array
         # redo --> moves index back 1 to get the previous history item, returns that item 
@@ -36,6 +37,20 @@ class Santorini:
 
     def make_moves(self):
         self.board.display()
+
+    def undo(self):
+        if self.history_index > 0:
+            self.history_index -= 1
+            self.memento(self.move_history[self.history_index])
+
+    def redo(self):
+        if self.history_index < len(self.move_history) - 1:
+            self.history_index += 1
+            self.memento(self.move_history[self.history_index])
+
+    def memento(self, move):
+        self.board
+
 
 
 
