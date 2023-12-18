@@ -19,9 +19,10 @@ class Player:
         raise NotImplementedError()
 
     def has_moves(self, worker):
+        # TODO get position of a worker 
         for direction in self.board.DIRECTIONS.values():
-            print(worker[0],direction[0])
-            selected_dir = (worker[1] + direction[0], worker[0] + direction[1])
+            position = self.board.worker_position(worker)
+            selected_dir = (position[0] + direction[0], position[1] + direction[1])
             if self.board.is_valid_direction(worker, selected_dir):
                 return True
         return False
@@ -45,12 +46,8 @@ class Player:
         """
 
     def height_score(self):
-        return 202
         pass
-        
     def center_score(self):
-        return 12
         pass
     def distance_score(self):
-        return 12
         pass
