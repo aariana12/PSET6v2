@@ -40,4 +40,10 @@ class Board:
     
     def is_valid_direction(self, worker, direction):
         pass
+
+    def iliketomoveitmoveit(self):
+        pass
+
+    def bobthebuilder(self):
+        pass
         

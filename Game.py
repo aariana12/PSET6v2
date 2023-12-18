@@ -49,6 +49,16 @@ class Santorini:
         score_str = self.display_score()
         print(f"Turn: {self.turn_count}, {player_str} ({score_str})")
 
+    def undo_redo(self):
+        if self.undo_redo:
+            command = input("undo, redo, or next\n")
+            if command == "undo":
+                self.undo()
+            elif command = "redo":
+                self.redo()
+            elif command = "next":
+                pass
+
 
     def make_player(self, player_type, color, workers):
         if player_type == 'human':
@@ -63,7 +73,14 @@ class Santorini:
             player.workers = self.board.setup_workers(player.color)
         self.board.display()
         self.display_turn_str()
-        
+        self.undo_redo()
+        self.turn_count += 1
+        # TODO check win, check if end
+        curr_player = self.players[self.curr_player]
+        selected_worker = curr_player.get_worker()
+        selected_direction = curr_player.get_move_direction()
+        selected_build = curr_player.get_build_direction()
+
 
     def undo(self):
         if self.history_index > 0:
