@@ -1,6 +1,7 @@
 from Board import Board
 from copy import deepcopy
 from players.HumanPlayer import HumanPlayer
+from players.HeuristicPlayer import HeuristicPlayer
 # from players.HeuristicPlayer import HeuristicPlayer
 # from players.RandomPlayer import RandomPlayer
 
