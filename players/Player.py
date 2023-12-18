@@ -1,7 +1,7 @@
-from .Board import Board
+from Board import Board
 
 class Player:
-    def __init__(self, player_type, workers, board);
+    def __init__(self, player_type, workers, board):
         self.player_type = player_type
         self.workers = workers
         self.board = board

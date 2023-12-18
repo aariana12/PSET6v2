@@ -18,10 +18,12 @@ def main():
     score = parameters[3]
 
     game = Santorini(white_type, blue_type, undo_redo, score)
-    print(game._board)
+    # print(game.board)
 
-    while True:
-        game.make_moves()
+    game.make_moves()
+
+    # while True:
+    #     game.make_moves()
 
 
 if __name__ == "__main__":
