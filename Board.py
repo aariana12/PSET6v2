@@ -49,7 +49,26 @@ class Board:
 
     
     def is_valid_direction(self, worker, direction):
-        pass
+        curr_x, curr_y = direction
+        worker_pos = self.worker_position(worker)
+        work_x, work_y = worker_pos
+        if (0 > curr_x > 5 or 0 > curr_y > 5):
+            print("1")
+            return False
+        elif self.cells[curr_x][curr_y]['worker'] is not None:
+            print("2")
+            return False
+        elif self.cells[curr_x][curr_y]['height'] > self.cells[work_x][work_y]['height']:
+            print("3")
+            
+            return False
+        return True
+    #  print("cur position: ", direction)
+    #  cur_pos = self.DIRECTIONS[direction]
+    #  print("direction valid?", cur_pos)  
+    #out of bounds and 
+    # if other worker is there
+    # get height of curr cell and also of future cell (cannot move to cell thats higher than u)
 
     def iliketomoveitmoveit(self):
         pass
@@ -57,3 +76,12 @@ class Board:
     def bobthebuilder(self):
         pass
         
+    
+    # def get_worker_position(self, worker_id):
+    #     for i in range(5):
+    #         for j in range(5):
+    #             cell = self.cells[i][j]
+    #             if cell['worker'] is not None and cell['worker'][0] == worker_id:
+    #                 # Return the position as (row, column)
+    #                 return (i, j)
+    #     return None

@@ -36,7 +36,7 @@ class Player:
             row, column = self.board.DIRECTION[direction]
             selected_dir = (worker[1] + row, worker[2] + column)
             if self.board.is_valid_direction(worker, selected_dir):
-                valid_directions.append(select_dir)
+                valid_directions.append(selected_dir)
         return valid_directions
 
 
