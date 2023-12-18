@@ -34,9 +34,11 @@ class HumanPlayer(Player):
         while True:
             selected_build = input("Select a direction to build (n, ne, e, se, s, sw, w, nw)\n")
             build = self.board.DIRECTIONS[selected_build]
+            
             if selected_build not in self.board.DIRECTIONS.keys():
                 print("Not a valid build direction.")
-            elif not self.board.is_valid_direction(worker, build):
+
+            elif not self.board.is_valid_build(worker, move_direction, build):
                 print(f"This worker is unable to build to {selected_build}")
             else:
                 return selected_build

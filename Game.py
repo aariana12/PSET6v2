@@ -1,8 +1,10 @@
 from Board import Board
+import copy
 from copy import deepcopy
 from players.HumanPlayer import HumanPlayer
 # from players.HeuristicPlayer import HeuristicPlayer
 from players.RandomPlayer import RandomPlayer
+
 
 class Santorini:
     """
@@ -22,19 +24,18 @@ class Santorini:
         self.turn_count = 1
         self.curr_player = 0 # start with white
         self.move_history = [] # save ALL MOVES
-        self.history_index = -1 
-        # self.undo_history_index = -1
-        # self._undo_history = [] # save all UNDOS
-        # self._history_index = 0 # start at turn one, used to move thru the history array
-        # redo --> moves index back 1 to get the previous history item, returns that item 
+        self.history_index = 0 # TODO weird behavior - better when -1
+        # when 0, undo weird 
+       
 
-    def display_score(self):
-        player = self.players[self.curr_player]
+    def display_score(self, player):
+        # player = self.players[self.curr_player]
+        opp_player = self.players[1 - self.curr_player]
         # score_str = ''
         if self.score:
-            height = player.height_score()
-            center = player.center_score()
-            distance = player.distance_score()
+            height = player.height_score(player)
+            center = player.center_score(player)
+            distance = player.distance_score(opp_player, player)
             score_str = f'({height}, {center}, {distance})'
             return score_str
         else:
@@ -47,20 +48,29 @@ class Santorini:
             player_str = "white (AB)"
         else:
             player_str = "blue (YZ)"
-        score_str = self.display_score()
+        score_str = self.display_score(self.players[self.curr_player])
         print(f"Turn: {self.turn_count}, {player_str} {score_str}")
 
     def undo_redo_command(self):
-        if self.undo_redo:
+        
+        while self.undo_redo:
             command = input("undo, redo, or next\n")
             if command == "undo":
                 self.undo()
+                
+                return True
             elif command == "redo":
                 self.redo()
+                
+                return True
             elif command == "next":
-                pass
+                return False
             else:
                 print("Invalid action. Please enter undo, redo, or next.")
+
+    def initialize_board(self):
+        for player in self.players:
+                player.workers = self.board.make_board(player.color)
 
     def make_player(self, player_type, color, workers):
         if player_type == 'human':
@@ -72,22 +82,27 @@ class Santorini:
 
     def make_moves(self):
         while True:
-            for player in self.players:
-                player.workers = self.board.setup_workers(player.color)
             self.board.display()
             self.display_turn_str()
-            self.undo_redo_command()
-            self.turn_count += 1
+            if not self.undo_redo_command():
+                curr_player = self.players[self.curr_player]
+                selected_worker = curr_player.get_worker()
+                selected_direction = curr_player.get_move_direction(selected_worker)
+                selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
+                print("selected:", selected_worker, selected_direction, selected_build)
 
-            curr_player = self.players[self.curr_player]
-            selected_worker = curr_player.get_worker()
-            selected_direction = curr_player.get_move_direction(selected_worker)
-            selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
-            
+                self.board.iliketomoveitmoveit(selected_worker, selected_direction)
+                self.board.bobthebuilder(selected_worker, selected_build)
+                actual_score = self.display_score(curr_player)
+                print(f'{selected_worker, selected_direction, selected_build} {actual_score}')
+                
+                # Save memento after the player has completed their turn
+                self.save_memento()
 
-            self.board.iliketomoveitmoveit(selected_worker, selected_direction)
-            self.board.bobthebuilder(selected_worker, selected_build)
-            self.switch_players()
+                # Increment turn count after the player has completed their turn
+                self.turn_count += 1
+                self.switch_players()
+
 
     def switch_players(self):
         self.curr_player =  1 - self.curr_player
@@ -103,45 +118,44 @@ class Santorini:
                 else:
                     return False
 
-    def check_game_state(self):
-        if self.turn_count > 1:
-            winner = self.has_won()
-            if winner:
-                print(winner)
-                play = input("Play again?\n")
-                if play.lower() == "yes":
-                    self.play_again()
+    # def check_game_state(self):
+    #     if self.turn_count > 1:
+    #         winner = self.has_won()
+    #         if winner:
+    #             print(winner)
+    #             play = input("Play again?\n")
+    #             if play.lower() == "yes":
 
 
-    def play_again(self):
-        """
-        re-initialize everything back to what it was originally
-        """
-        self.board = Board
-        self.turn_count = 1
-        self.move_history = []
-        self.history_index = -1
-
-        # TODO 
-
-        
-
-        
+    # def play_again(self):
+    #     """
+    #     re-initialize everything back to what it was originally
+    #     """
+    #     self.board = Board
+    #     self.turn_count = 1
+    #     self.move_history = []
+    #     self.history_index = -1
 
 
     def undo(self):
         if self.history_index > 0:
             self.history_index -= 1
+            self.turn_count -= 1
             self.memento(self.move_history[self.history_index])
+            self.switch_players()
+            # TODO - can't go all the way back to og position
 
     def redo(self):
         if self.history_index < len(self.move_history) - 1:
             self.history_index += 1
+            self.turn_count += 1
             self.memento(self.move_history[self.history_index])
+            self.switch_players()
 
     def save_memento(self):
-        self.history = self.history[self.history_index + 1]
-        self.history.append((copy.deepcopy(self.board), copy.deepcopy(self.players), self.curr_player, self.turn_count))
+        self.move_history = self.move_history[:self.history_index + 1]
+        # Create a memento (Originator)
+        self.move_history.append((copy.deepcopy(self.board), copy.deepcopy(self.players), self.curr_player, self.turn_count))
         self.history_index += 1
 
     def memento(self, return_move):

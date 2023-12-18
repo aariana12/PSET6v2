@@ -6,7 +6,7 @@ class Player:
         self.player_type = player_type # ex: human
         self.workers = workers # ex: [A,B]
         self.color = color # ex: white
-        self.board = board 
+        self.board = board
         # self.valid_directions = {'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'}
 
     @abstractmethod
@@ -18,7 +18,7 @@ class Player:
         raise NotImplementedError()
 
     @abstractmethod
-    def get_build_direction(self, worker, direction):
+    def get_build_direction(self, worker, move_direction):
         raise NotImplementedError()
 
     def has_moves(self, worker):
@@ -59,9 +59,44 @@ class Player:
                 valid_builds.append(direction)
         return valid_builds
 
-    def height_score(self):
-        pass
-    def center_score(self):
-        pass
-    def distance_score(self):
-        pass
+    def height_score(self, player):
+        height = 0
+        for worker in player.workers:
+            curr = self.board.worker_position(worker[0])
+            x, y = curr[0], curr[1]
+            final = self.board.cells[curr[0]][curr[1]]['height']
+            height = final + height
+        return height
+
+        
+
+
+    def center_score(self, player):
+        score = 0
+        for worker in player.workers:
+            get_pos = self.board.worker_position(worker[0])
+            x, y = get_pos[0], get_pos[1]
+            if (x, y) == (2, 2):
+                score += 2
+            elif 1 <= x <= 3 and 1 <= y <= 3:
+                score += 1
+            else:
+                # Edge spaces
+                score += 0
+        return score
+    
+
+    def distance_score(self, opp_player, player):
+        opp_workers = opp_player.workers
+        min_distances = [float('inf')] * len(opp_workers)
+        for worker in player.workers:
+            for i, opp_worker in enumerate(opp_workers):
+                curr = self.board.worker_position(worker[0])
+                x, y = curr[0], curr[1]
+                curr_opp = self.board.worker_position(opp_worker[0])
+                opp_x, opp_y = curr_opp[0], curr_opp[1]
+                distance = max(abs(x - opp_x), abs(y - opp_y))
+                min_distances[i] = min(min_distances[i], distance)
+        # print(min_distances)
+        return 8 - sum(min_distances)
+    

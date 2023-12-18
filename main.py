@@ -22,6 +22,7 @@ def main():
     # Now undo_redo and score are boolean values
     game = Santorini(white_type, blue_type, undo_redo, score)
     # print(game.board)
+    game.initialize_board()
 
     game.make_moves()
 
