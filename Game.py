@@ -77,7 +77,9 @@ class Santorini:
         self.display_turn_str()
         self.undo_redo_command()
         self.turn_count += 1
-        # TODO check win, check if end
+
+
+
         curr_player = self.players[self.curr_player]
         selected_worker = curr_player.get_worker()
         selected_direction = curr_player.get_move_direction(selected_worker)
@@ -89,6 +91,42 @@ class Santorini:
 
     def switch_players(self):
         self.curr_player =  1 - self.curr_player
+
+    def has_won(self):
+        for player in self.players:
+            for worker in player.workers:
+                if self.board.grid[worker[0]][worker[1]]['height'] == 3:
+                    return f"{player.color} has won"
+
+                if not player.has_moves(worker):
+                    return f"{self.players[self.switch(self.curr_player)].color} has won"
+                else:
+                    return False
+
+    def check_game_state(self):
+        if self.turn_count > 1:
+            winner = self.has_won()
+            if winner:
+                print(winner)
+                play = input("Play again?\n")
+                if play.lower() == "yes":
+
+
+    def play_again(self):
+        """
+        re-initialize everything back to what it was originally
+        """
+        self.board = Board
+        self.turn_count = 1
+        self.move_history = []
+        self.history_index = -1
+
+        # TODO 
+
+        
+
+        
+
 
     def undo(self):
         if self.history_index > 0:
