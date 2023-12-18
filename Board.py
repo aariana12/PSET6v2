@@ -1,4 +1,7 @@
 class Board:
+    """
+    class that sets up the board positions and has the lowest level functions that move and manage workers on the board
+    """
     DIRECTIONS = {
         'n': (-1, 0),
         'ne': (-1, 1),
@@ -14,6 +17,9 @@ class Board:
         self.cells = [[{'height': 0, 'worker': None} for _ in range(5)] for _ in range(5)]
 
     def display(self):
+        """
+        method that displays the board setup
+        """
         print("+--+--+--+--+--+")
         for i in range(5):
             for j in range(5):
@@ -28,6 +34,9 @@ class Board:
             print("+--+--+--+--+--+")
 
     def make_board(self, color):
+        """
+        method that sets up the positions on the board
+        """
         if color == "white":
             self.cells[3][1]['worker'] = ('A', 3, 1)
             self.cells[1][3]['worker'] = ('B', 1, 3)
@@ -37,18 +46,21 @@ class Board:
             self.cells[3][3]['worker'] = ('Z', 3, 3)
             return [('Y', 1, 1), ('Z', 3, 3)]  
 
-    def worker_position(self, worker_id):
-        """finds the cur worker position"""
+    def worker_position(self, worker):
+        """
+        method that returns the worker position from worker name
+        """
         for i in range(5):
             for j in range(5):
                 cell = self.cells[i][j]
-                if cell['worker'] is not None and cell['worker'][0] == worker_id:
-                    # Return the position as (row, column)
+                if cell['worker'] is not None and cell['worker'][0] == worker:
                     return (i, j)
         return None 
 
-    # DIRECTION - n,w,s, coords 
     def is_valid_direction(self, worker, direction):
+        """
+        method that checks if a move direction is valid
+        """
         curr_x, curr_y = direction
         worker_pos = self.worker_position(worker)
         work_x, work_y = worker_pos
@@ -56,7 +68,6 @@ class Board:
         print("new xy:", new_x, new_y)
         if (0 <= new_x < 5 and 0 <= new_y < 5):
             if not self.check_occupied_worker((new_x, new_y)):
-                # return True
                 height_diff = self.cells[new_x][new_y]['height'] - self.cells[curr_x][curr_y]['height']
                 if height_diff <=1:
                     return True
@@ -64,6 +75,9 @@ class Board:
             return False
 
     def is_valid_build(self, worker, move_direction, direction):
+        """
+        method that checks if a build direction is valid
+        """
         work_x, work_y = self.worker_position(worker)  # worker pos
         curr_x, curr_y = self.DIRECTIONS[move_direction] # current move
         build_x, build_y = direction # build dir
@@ -83,6 +97,9 @@ class Board:
             return False
 
     def iliketomoveitmoveit(self, worker, to_direction):
+        """
+        method that moves the piece in a move direction
+        """
         curr_x, curr_y = self.worker_position(worker)
         self.cells[curr_x][curr_y]['worker'] = None
         new_dir = self.DIRECTIONS[to_direction]
@@ -90,35 +107,31 @@ class Board:
         new_x, new_y = new_dir
         again_x = curr_x + new_x
         again_y = curr_y + new_y
-        # print("new pos after move: ", new_x, new_y)
-        # self.cells[curr_x][curr_y]['worker'] = None
         self.cells[again_x][again_y]['worker'] = worker
-
         return (worker[0], again_x, again_y) 
 
     def bobthebuilder(self, worker, to_build):
+        """
+        method that builds in a specified build direction
+        """
         curr_x, curr_y = self.worker_position(worker)
         build_x, build_y = self.DIRECTIONS[to_build]
         build_n = curr_x + build_x
         build_m = curr_y + build_y
         print(build_n, build_m)
-        #TODO should not be able to build where there is a worker 
         self.cells[build_n][build_m]['height'] += 1
         curr_pos_b = self.worker_position(worker)
         print("worker in bob? ", curr_pos_b)
-    
-   
 
     def check_occupied_worker(self, coordinate):
+        """
+        method that checks if a position is occupied by a worker
+        """
         occupied = False
         for worker in ['A', 'B', 'Y', 'Z']:
             if self.worker_position(worker) == coordinate:
-                #yes, cell is occupied
                 occupied = True
                 print("in check: ", self.worker_position(worker), coordinate)
-                # return False 
             elif self.worker_position(worker) == None:
                 occupied = False
-                # return False
-                #empty cell
         return occupied

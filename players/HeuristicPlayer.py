@@ -1,6 +1,6 @@
 from players.Player import Player
 
-class HeuristicPlayer(player):
+class HeuristicPlayer(Player):
     def __init__(self, player_type, workers, color, board):
         super().__init__(player_type, workers, color, board)
         self.player_type = "heuristic"
