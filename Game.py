@@ -102,6 +102,23 @@ class Santorini:
                 # Increment turn count after the player has completed their turn
                 self.turn_count += 1
                 self.switch_players()
+            curr_player = self.players[self.curr_player]
+            selected_worker = curr_player.get_worker()
+            selected_direction = curr_player.get_move_direction(selected_worker)
+            selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
+            
+            self.board.iliketomoveitmoveit(selected_worker, selected_direction)
+            self.board.bobthebuilder(selected_worker, selected_build)
+            actual_score = self.display_score(curr_player)
+            formatted_move = ','.join([selected_worker, selected_direction, selected_build])
+
+            print(f"{formatted_move} {actual_score}")
+
+    
+            
+            
+            # print (f'{selected_worker, selected_direction,selected_build} {actual_score}')
+            self.switch_players()
 
 
     def switch_players(self):

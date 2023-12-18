@@ -87,8 +87,10 @@ class Board:
         new_x, new_y = new_dir
         again_x = curr_x + new_x
         again_y = curr_y + new_y
-        print("Ilike move it:", worker[0])
+        # print("new pos after move: ", new_x, new_y)
+        # self.cells[curr_x][curr_y]['worker'] = None
         self.cells[again_x][again_y]['worker'] = worker
+
         return (worker[0], again_x, again_y) 
 
     def bobthebuilder(self, worker, to_build):
