@@ -1,6 +1,7 @@
 from Board import Board
 from copy import deepcopy
 from players.HumanPlayer import HumanPlayer
+import copy
 
 class Santorini:
     """
@@ -11,10 +12,10 @@ class Santorini:
     def __init__(self, white_type, blue_type, undo_redo=False, score=False):
         self.board = Board()
         # pass in the type of player (human, heursitics, random)
-        self.white_type = white_type
+        self.white_type = white_type 
         self.blue_type = blue_type
-        self.undo_redo_setting = undo_redo
-        self.score_setting = score
+        self.undo_redo = undo_redo
+        self.score = score
         self.players = [[self.make_player(white_type, "white", ['A', 'B']), 
                         self.make_player(blue_type, "blue", ['Y', 'Z'])]] # an array of type Player
         self.turn_count = 1
@@ -25,6 +26,28 @@ class Santorini:
         # self._undo_history = [] # save all UNDOS
         # self._history_index = 0 # start at turn one, used to move thru the history array
         # redo --> moves index back 1 to get the previous history item, returns that item 
+
+    def display_score(self):
+        player = self.curr_player
+        if self.score:
+            height = player.height_score()
+            center = player.center_score()
+            distance = player.distance_score()
+            score_str = "f{height}, {center}, {distance}"
+
+            return score_str
+        else:
+            pass
+    
+    def display_turn_str(self):
+        player = self.players[self.curr_player][2]
+        player_str = ''
+        if player == "white":
+            player_str = "white (AB)"
+        else:
+            player_str = "blue (YZ)"
+        score_str = self.display_score()
+        print(f"Turn: {self.turn_count}, {player_str} ({score_str})")
 
 
     def make_player(self, player_type, name, workers):
@@ -37,6 +60,7 @@ class Santorini:
 
     def make_moves(self):
         self.board.display()
+        self.display_turn_str()
 
     def undo(self):
         if self.history_index > 0:
@@ -48,8 +72,13 @@ class Santorini:
             self.history_index += 1
             self.memento(self.move_history[self.history_index])
 
-    def memento(self, move):
-        self.board
+    def save_memento(self):
+        self.history = self.history[self.history_index + 1]
+        self.history.append((copy.deepcopy(self.board), copy.deepcopy(self.players), self.curr_player, self.turn_count))
+        self.history_index += 1
+
+    def memento(self, return_move):
+        self.board, self.players, self.curr_player, self.state = return_move
 
 
 
