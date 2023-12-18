@@ -15,8 +15,8 @@ class Santorini:
         # pass in the type of player (human, heursitics, random)
         # self.white_type = white_type
         # self.blue_type = blue_type
-        self.undo_redo_setting = undo_redo
-        self.score_setting = score
+        self.undo_redo = undo_redo
+        self.score = score
         self.players = [self.make_player(white_type, ['A', 'B'], "white"), 
                         self.make_player(blue_type, ['Y', 'Z'], "blue")] # an array of type Player
         self.turn_count = 1
@@ -34,14 +34,13 @@ class Santorini:
             height = player.height_score()
             center = player.center_score()
             distance = player.distance_score()
-            score_str = "f{height}, {center}, {distance}"
-
+            score_str = f'{height}, {center}, {distance}'
             return score_str
         else:
             pass
     
     def display_turn_str(self):
-        player = self.players[self.curr_player][2]
+        player = self.players[self.curr_player].color
         player_str = ''
         if player == "white":
             player_str = "white (AB)"
