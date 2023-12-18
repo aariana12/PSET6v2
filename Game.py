@@ -90,7 +90,14 @@ class Santorini:
             self.board.iliketomoveitmoveit(selected_worker, selected_direction)
             self.board.bobthebuilder(selected_worker, selected_build)
             actual_score = self.display_score(curr_player)
-            print (f'{selected_worker, selected_direction,selected_build} {actual_score}')
+            formatted_move = ','.join([selected_worker, selected_direction, selected_build])
+
+            print(f"{formatted_move} {actual_score}")
+
+    
+            
+            
+            # print (f'{selected_worker, selected_direction,selected_build} {actual_score}')
             self.switch_players()
 
 

@@ -80,9 +80,8 @@ class Board:
         again_y = curr_y + new_y
         # print("new pos after move: ", new_x, new_y)
         # self.cells[curr_x][curr_y]['worker'] = None
-        print("Ilike move it:", worker[0])
         self.cells[again_x][again_y]['worker'] = worker
-        
+
         return (worker[0], again_x, again_y) 
 
         
@@ -97,17 +96,6 @@ class Board:
         #TODO should not be able to build where there is a worker 
         self.cells[build_n][build_m]['height'] += 1
         curr_pos_b = self.worker_position(worker)
-        print("worker in bob? ", curr_pos_b)
+      
         # print("worker in bobthebuilder: ", self.cells[build_n][build_m]['worker'])
     
-    # def is_valid_build
-        
-    
-    # def get_worker_position(self, worker_id):
-    #     for i in range(5):
-    #         for j in range(5):
-    #             cell = self.cells[i][j]
-    #             if cell['worker'] is not None and cell['worker'][0] == worker_id:
-    #                 # Return the position as (row, column)
-    #                 return (i, j)
-    #     return None
