@@ -2,7 +2,7 @@ from Board import Board
 from copy import deepcopy
 from players.HumanPlayer import HumanPlayer
 # from players.HeuristicPlayer import HeuristicPlayer
-# from players.RandomPlayer import RandomPlayer
+from players.RandomPlayer import RandomPlayer
 
 class Santorini:
     """
@@ -67,29 +67,27 @@ class Santorini:
             return HumanPlayer(player_type, workers, color, self.board)
         elif player_type == 'heuristic':
             return HeuristicPlayer(player_type, workers, color, self.board)
-        else:  # player_type == 'random'
+        elif player_type == 'random':
             return RandomPlayer(player_type, workers, color, self.board)
 
     def make_moves(self):
-        for player in self.players:
-            player.workers = self.board.setup_workers(player.color)
-        self.board.display()
-        self.display_turn_str()
-        self.undo_redo_command()
-        self.turn_count += 1
+        while True:
+            for player in self.players:
+                player.workers = self.board.setup_workers(player.color)
+            self.board.display()
+            self.display_turn_str()
+            self.undo_redo_command()
+            self.turn_count += 1
 
+            curr_player = self.players[self.curr_player]
+            selected_worker = curr_player.get_worker()
+            selected_direction = curr_player.get_move_direction(selected_worker)
+            selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
+            
 
-
-        curr_player = self.players[self.curr_player]
-        selected_worker = curr_player.get_worker()
-        selected_direction = curr_player.get_move_direction(selected_worker)
-        selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
-        
-        self.board.iliketomoveitmoveit(selected_worker, selected_direction)
-        self.board.bobthebuilder(selected_worker, selected_build)
-        self.switch_players()
-
-        self.board.display()
+            self.board.iliketomoveitmoveit(selected_worker, selected_direction)
+            self.board.bobthebuilder(selected_worker, selected_build)
+            self.switch_players()
 
     def switch_players(self):
         self.curr_player =  1 - self.curr_player
@@ -112,6 +110,7 @@ class Santorini:
                 print(winner)
                 play = input("Play again?\n")
                 if play.lower() == "yes":
+                    self.play_again()
 
 
     def play_again(self):
