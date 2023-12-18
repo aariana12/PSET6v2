@@ -28,6 +28,28 @@ class Santorini:
         # self._history_index = 0 # start at turn one, used to move thru the history array
         # redo --> moves index back 1 to get the previous history item, returns that item 
 
+    def display_score(self):
+        player = self.curr_player
+        if self.score:
+            height = player.height_score()
+            center = player.center_score()
+            distance = player.distance_score()
+            score_str = "f{height}, {center}, {distance}"
+
+            return score_str
+        else:
+            pass
+    
+    def display_turn_str(self):
+        player = self.players[self.curr_player][2]
+        player_str = ''
+        if player == "white":
+            player_str = "white (AB)"
+        else:
+            player_str = "blue (YZ)"
+        score_str = self.display_score()
+        print(f"Turn: {self.turn_count}, {player_str} ({score_str})")
+
 
     def make_player(self, player_type, color, workers):
         if player_type == 'human':
@@ -41,7 +63,7 @@ class Santorini:
         for player in self.players:
             player.workers = self.board.setup_workers(player.color)
         self.board.display()
-       
+        self.display_turn_str()
 
     def undo(self):
         if self.history_index > 0:
@@ -53,8 +75,13 @@ class Santorini:
             self.history_index += 1
             self.memento(self.move_history[self.history_index])
 
-    def memento(self, move):
-        self.board
+    def save_memento(self):
+        self.history = self.history[self.history_index + 1]
+        self.history.append((copy.deepcopy(self.board), copy.deepcopy(self.players), self.curr_player, self.turn_count))
+        self.history_index += 1
+
+    def memento(self, return_move):
+        self.board, self.players, self.curr_player, self.state = return_move
 
 
 
