@@ -44,8 +44,12 @@ class Player:
         """
 
     def height_score(self):
+        return 202
         pass
+        
     def center_score(self):
+        return 12
         pass
     def distance_score(self):
+        return 12
         pass
