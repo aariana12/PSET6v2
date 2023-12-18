@@ -47,3 +47,12 @@ class Board:
     def bobthebuilder(self):
         pass
         
+    
+    # def get_worker_position(self, worker_id):
+    #     for i in range(5):
+    #         for j in range(5):
+    #             cell = self.cells[i][j]
+    #             if cell['worker'] is not None and cell['worker'][0] == worker_id:
+    #                 # Return the position as (row, column)
+    #                 return (i, j)
+    #     return None
