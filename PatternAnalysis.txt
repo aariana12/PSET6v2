@@ -6,8 +6,7 @@ Factory Method:
 We used a factory method design pattern to struture our player classes, which allowed us to provide an interface for creating objects in a superclass with the flexibility of altering the type of objects that will be created. We had three abstract method classes: get_worker, get_move_direction, and get_build_direction. These base classes were defined in the Player class and declared as abstract, allowing the subclasses to implement their own versions of the method. 
 
 Singleton:
-We used a singleton design pattern for the main driver of the game, which we called Santorini. This class is the main manager object that drives the core game loop. The singleton design allows us to ensure that the class has only one instance, while still providing a global access point to the instance. 
+We used a singleton design pattern for the main driver of the game, which we called Santorini. This class is the main manager object that drives the core game loop. The singleton design allows us to ensure that the class has only one instance, while still providing a global access point to the instance. To do this, we created a private default constructor to prevent other objects from using the new operator with the singleton class. We then created a static creation method that acts as a construction which calls the private constructure to create an object and saves it in a static field. Thus, whenever the method is called, it returns the same object. 
 
-We also used the singleton design pattern for the Board class, as it is only created once during each instance of the game and referenced as a global object for the players and the game itself. 
-
-Memento
+Memento:
+We used the memento method to handle the undo and redo commands because this behavioral design pattern allows us to save and store the previous state of an object. Additionally, there is a layer of privacy because it doesn't reveal the details of the its implementation. For every move executed (including the very first start state of the board), the state of the board is saved in an array of game states that are indexed through to restore past moves. Therefore, memento is able to be loaded from this array when undo and redo is called. 
