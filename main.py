@@ -19,15 +19,11 @@ def main():
 
     white_type, blue_type, undo_redo, score = parameters
 
-    # Now undo_redo and score are boolean values
-    game = Santorini(white_type, blue_type, undo_redo, score)
-    # print(game.board)
+
+    game = Santorini.getInstance(white_type, blue_type, undo_redo, score)
     game.initialize_board()
 
     game.make_moves()
-
-    # while True:
-    #     game.make_moves()
 
 if __name__ == "__main__":
     main()

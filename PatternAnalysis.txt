@@ -1,0 +1,13 @@
+
+Abstract Factory:
+We used an abstract factory to to manage the related player classes. Human, heuristic, and random player all have the same fundamental purpose of getting a worker, a move direction, and a build direction but via different methods. Thus, the abstract factory creational design pattern that helped us produce families of related objects without specifying the concrete class. This was useful for creating the player in the __init__ function of the Santorini singleton class via the make_worker function. 
+
+Factory Method:
+We used a factory method design pattern to struture our player classes, which allowed us to provide an interface for creating objects in a superclass with the flexibility of altering the type of objects that will be created. We had three abstract method classes: get_worker, get_move_direction, and get_build_direction. These base classes were defined in the Player class and declared as abstract, allowing the subclasses to implement their own versions of the method. 
+
+Singleton:
+We used a singleton design pattern for the main driver of the game, which we called Santorini. This class is the main manager object that drives the core game loop. The singleton design allows us to ensure that the class has only one instance, while still providing a global access point to the instance. 
+
+We also used the singleton design pattern for the Board class, as it is only created once during each instance of the game and referenced as a global object for the players and the game itself. 
+
+Memento

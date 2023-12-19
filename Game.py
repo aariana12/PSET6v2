@@ -14,7 +14,20 @@ class Santorini:
     """
     Singleton game class that create one instance of the game Santorini
     """
+    _instance = None
+
+    # Singleton getInstance method
+    @classmethod
+    def getInstance(cls, white_type, blue_type, undo_redo=False, score=False):
+        if cls._instance is None:
+            cls._instance = cls(white_type, blue_type, undo_redo, score)
+        return cls._instance
+
+
     def __init__(self, white_type, blue_type, undo_redo=False, score=False):
+        if self._instance is not None:
+            raise Exception("This class is a singleton!")
+
         self.board = Board()
         self.player_factory = PlayerFactory()
         self.players = [Player(None, None, None, None) for _ in range(2)]
