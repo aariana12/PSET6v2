@@ -67,7 +67,7 @@ class Board:
         worker_pos = self.worker_position(worker)
         work_x, work_y = worker_pos
         new_x, new_y = curr_x + work_x, curr_y + work_y
-        print("new xy:", new_x, new_y)
+        # print("new xy:", new_x, new_y)
         if (0 <= new_x < 5 and 0 <= new_y < 5):
             if not self.check_occupied_worker((new_x, new_y)):
                 height_diff = self.cells[new_x][new_y]['height'] - self.cells[curr_x][curr_y]['height']
@@ -119,10 +119,10 @@ class Board:
         build_x, build_y = self.DIRECTIONS[to_build]
         build_n = curr_x + build_x
         build_m = curr_y + build_y
-        print(build_n, build_m)
+        # print(build_n, build_m)
         self.cells[build_n][build_m]['height'] += 1
         curr_pos_b = self.worker_position(worker)
-        print("worker in bob? ", curr_pos_b)
+        # print("worker in bob? ", curr_pos_b)
 
     def check_occupied_worker(self, coordinate):
         """
@@ -132,7 +132,7 @@ class Board:
         for worker in ['A', 'B', 'Y', 'Z']:
             if self.worker_position(worker) == coordinate:
                 occupied = True
-                print("in check: ", self.worker_position(worker), coordinate)
+                # print("in check: ", self.worker_position(worker), coordinate)
             elif self.worker_position(worker) == None:
                 occupied = False
         return occupied

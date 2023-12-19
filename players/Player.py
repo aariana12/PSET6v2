@@ -55,7 +55,7 @@ class Player:
             worker_pos = self.board.worker_position(worker[0])
             if self.board.is_valid_direction(worker[0], selected_dir):
                 valid_directions.append(direction)
-        print("valid direction array", valid_directions)
+        # print("valid direction array", valid_directions)
         return valid_directions
     
     # def get_valid_move_directions(self, row, col):
@@ -95,7 +95,7 @@ class Player:
         """
         returns an array of valid builds for that worker
         """
-        print("instead valid builds")
+        # print("instead valid builds")
         valid_builds = []
         for direction in self.board.DIRECTIONS.keys():
             selected_dir = self.board.DIRECTIONS[direction]
@@ -116,10 +116,10 @@ class Player:
         return height
     
     def height_score2(self, player):
-        print("height players:", player)
+        # print("height players:", player)
         height = 0
         for worker in player:
-            print("worker height: ", worker)
+            # print("worker height: ", worker)
             curr = self.board.worker_position(worker[0])
             x, y = curr[0], curr[1]
             final = self.board.cells[curr[0]][curr[1]]['height']
@@ -162,7 +162,7 @@ class Player:
         method to calculate distance score
         """
         opp_workers = opp_player.workers
-        print("opp workers in distance fxn: ", opp_workers)
+        # print("opp workers in distance fxn: ", opp_workers)
         min_distances = [float('inf')] * len(opp_workers)
         for worker in player.workers:
             for i, opp_worker in enumerate(opp_workers):
@@ -176,10 +176,11 @@ class Player:
         return 8 - sum(min_distances)
     
     def distance_score2(self, opp_player, player):
-        opp_workers = opp_player.workers
-        min_distances = [float('inf')] * len(opp_workers)
-        for worker in player.workers:
-            for i, opp_worker in enumerate(opp_workers):
+        opp_player = [(worker[0], worker[1][0], worker[1][1]) for worker in opp_player]
+        # print("oope players in 2: ", opp_player)
+        min_distances = [float('inf')] * len(opp_player)
+        for worker in player:
+            for i, opp_worker in enumerate(opp_player):
                 curr = self.board.worker_position(worker[0])
                 x, y = curr[0], curr[1]
                 curr_opp = self.board.worker_position(opp_worker[0])

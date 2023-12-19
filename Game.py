@@ -105,12 +105,11 @@ class Santorini:
                 selected_worker = curr_player.get_worker()
                 selected_direction = curr_player.get_move_direction(selected_worker)
                 selected_build = curr_player.get_build_direction(selected_worker, selected_direction)
-                print("selected:", selected_worker, selected_direction, selected_build)
-
                 self.board.iliketomoveitmoveit(selected_worker, selected_direction)
                 self.board.bobthebuilder(selected_worker, selected_build)
                 actual_score = self.display_score(curr_player)
-                print(f'{selected_worker, selected_direction, selected_build} {actual_score}')
+                # print(f'{selected_worker[0], selected_direction[0], selected_build[0]} {actual_score}')
+                print(f"{selected_worker[0]},{selected_direction[0]},{selected_build[0]} {actual_score}")
                 
                 # Save memento after the player has completed their turn
                 self.save_memento()
